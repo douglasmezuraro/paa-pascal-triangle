@@ -3,23 +3,40 @@ unit Impl.Algorithms;
 interface
 
 uses
-  System.Classes, System.SysUtils;
+  Impl.Types,
+  System.Classes,
+  System.SysUtils;
 
 type
-  TLine = TArray<string>;
-  TMatrix = TArray<TLine>;
-
   TAlgorithms = class
   private
     class function Initialize(const N: Integer): TMatrix;
   public
+    { without using dynamic-programming }
     class function Pascal(const N: Integer): TMatrix; overload;
+      deprecated 'Use DynPascal';
     class function Pascal(const Line, Column: Integer): Integer; overload;
+      deprecated 'Use DynPascal';
+    { using dynamic-programming }
+    class function DynPascal(const N: Integer): TMatrix; overload;
+    class function DynPascal(const Line, Column: Integer;
+      var Matrix: TMatrix): Integer; overload;
   end;
 
 implementation
 
 { TAlgorithms }
+
+class function TAlgorithms.DynPascal(const N: Integer): TMatrix;
+begin
+  Result := nil;
+end;
+
+class function TAlgorithms.DynPascal(const Line, Column: Integer;
+  var Matrix: TMatrix): Integer;
+begin
+  Result := 0;
+end;
 
 class function TAlgorithms.Initialize(const N: Integer): TMatrix;
 var
@@ -59,3 +76,4 @@ begin
 end;
 
 end.
+

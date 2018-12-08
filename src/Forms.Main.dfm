@@ -1,7 +1,7 @@
-object Form1: TForm1
+object Main: TMain
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Main'
   ClientHeight = 325
   ClientWidth = 446
   Color = clBtnFace
@@ -19,8 +19,14 @@ object Form1: TForm1
     Top = 45
     Width = 430
     Height = 272
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Calibri'
+    Font.Style = []
     Lines.Strings = (
       'Output')
+    ParentFont = False
     TabOrder = 0
   end
   object InputEdit: TEdit
@@ -29,7 +35,6 @@ object Form1: TForm1
     Width = 121
     Height = 21
     TabOrder = 1
-    Text = 'InputEdit'
   end
   object Button: TButton
     Left = 135
@@ -39,9 +44,9 @@ object Form1: TForm1
     Action = ActionCalculate
     TabOrder = 2
   end
-  object ActionList1: TActionList
+  object ActionList: TActionList
     Left = 376
-    Top = 8
+    Top = 16
     object ActionCalculate: TAction
       Caption = 'Calcular'
       OnExecute = ActionCalculateExecute

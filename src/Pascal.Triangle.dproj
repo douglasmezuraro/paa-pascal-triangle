@@ -92,7 +92,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="Forms.Main.pas">
-            <Form>Form1</Form>
+            <Form>Main</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Impl.Algorithms.pas"/>

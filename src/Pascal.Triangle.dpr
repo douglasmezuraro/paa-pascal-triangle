@@ -2,14 +2,17 @@ program Pascal.Triangle;
 
 uses
   Vcl.Forms,
-  Forms.Main in 'Forms.Main.pas' {Form1},
+  Forms.Main in 'Forms.Main.pas' {Main},
   Impl.Algorithms in 'Impl.Algorithms.pas';
 
 {$R *.res}
 
+var
+  Main: TMain;
+
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TMain, Main);
   Application.Run;
 end.

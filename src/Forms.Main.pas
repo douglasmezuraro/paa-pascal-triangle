@@ -13,16 +13,17 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   Impl.Algorithms,
+  Impl.Types,
   System.Actions,
   Vcl.ActnList,
   Vcl.StdCtrls;
 
 type
-  TForm1 = class(TForm)
+  TMain = class(TForm)
     Output: TMemo;
     InputEdit: TEdit;
     Button: TButton;
-    ActionList1: TActionList;
+    ActionList: TActionList;
     ActionCalculate: TAction;
     procedure ActionCalculateExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -33,18 +34,17 @@ type
     property Input: Integer read GetInput write SetInput;
   end;
 
-var
-  Form1: TForm1;
-
 implementation
 
 {$R *.dfm}
 
-procedure TForm1.ActionCalculateExecute(Sender: TObject);
+procedure TMain.ActionCalculateExecute(Sender: TObject);
 var
   Matrix: TMatrix;
   Line: TLine;
 begin
+  Output.Clear;
+
   Matrix := TAlgorithms.Pascal(Input);
 
   for Line in Matrix do
@@ -53,20 +53,22 @@ begin
   end;
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TMain.FormShow(Sender: TObject);
 begin
   Input := 0;
   Output.Clear;
+  InputEdit.SetFocus;
 end;
 
-function TForm1.GetInput: Integer;
+function TMain.GetInput: Integer;
 begin
   Result := StrToIntDef(InputEdit.Text, 0);
 end;
 
-procedure TForm1.SetInput(const Value: Integer);
+procedure TMain.SetInput(const Value: Integer);
 begin
   InputEdit.Text := Value.ToString;
 end;
 
 end.
+
