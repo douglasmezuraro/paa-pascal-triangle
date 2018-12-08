@@ -3,8 +3,7 @@ unit Impl.Types;
 interface
 
 type
-  TLine = TArray<string>;
-  TMatrix = TArray<TLine>;
+  TMatrix = TArray<TArray<Integer>>;
 
 implementation
 

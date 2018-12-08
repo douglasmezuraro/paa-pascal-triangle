@@ -21,7 +21,7 @@ object Main: TMain
     Height = 272
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -15
     Font.Name = 'Calibri'
     Font.Style = []
     Lines.Strings = (

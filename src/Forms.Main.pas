@@ -41,15 +41,20 @@ implementation
 procedure TMain.ActionCalculateExecute(Sender: TObject);
 var
   Matrix: TMatrix;
-  Line: TLine;
+  Line, Column: Integer;
+  Element, Elements: string;
 begin
   Output.Clear;
-
-  Matrix := TAlgorithms.Pascal(Input);
-
-  for Line in Matrix do
+  Matrix := TAlgorithms.DynPascal(Input);
+  for Line := Low(Matrix) to High(Matrix) do
   begin
-    Output.Lines.Add(string.Join(' ', Line));
+    Elements := string.Empty;
+    for Column := Low(Matrix) to High(Matrix) do
+    begin
+      Element := Format('[%d]', [Matrix[Line][Column]]);
+      Elements := Elements + Element;
+    end;
+    Output.Lines.Insert(Line, Elements);
   end;
 end;
 

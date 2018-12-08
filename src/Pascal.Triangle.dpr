@@ -3,7 +3,8 @@ program Pascal.Triangle;
 uses
   Vcl.Forms,
   Forms.Main in 'Forms.Main.pas' {Main},
-  Impl.Algorithms in 'Impl.Algorithms.pas';
+  Impl.Algorithms in 'Impl.Algorithms.pas',
+  Impl.Types in 'Impl.Types.pas';
 
 {$R *.res}
 

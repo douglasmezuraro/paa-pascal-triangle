@@ -5,6 +5,7 @@ interface
 uses
   Impl.Types,
   System.Classes,
+  System.Math,
   System.SysUtils;
 
 type
@@ -28,25 +29,54 @@ implementation
 { TAlgorithms }
 
 class function TAlgorithms.DynPascal(const N: Integer): TMatrix;
+var
+  Matrix: TMatrix;
+  Line, Column: Integer;
 begin
-  Result := nil;
+  Matrix := Initialize(N);
+  for Line := 0 to Pred(N) do
+  begin
+    for Column := 0 to Pred(N) do
+    begin
+      Matrix[Line][Column] := DynPascal(Line, Column, Matrix);
+    end;
+  end;
+  Result := Matrix;
 end;
 
 class function TAlgorithms.DynPascal(const Line, Column: Integer;
   var Matrix: TMatrix): Integer;
 begin
-  Result := 0;
+  Result := Matrix[Line][Column];
+
+  if Result <> NegativeValue then
+    Exit;
+
+  Result := 1;
+
+  if (Line > 0) and (Column > 0) then
+    Result := DynPascal(Line, Pred(Column), Matrix) + DynPascal(Pred(Line), Column, Matrix);
+
+  Matrix[Line][Column] := Result;
 end;
 
 class function TAlgorithms.Initialize(const N: Integer): TMatrix;
 var
   Matrix: TMatrix;
-  Line: Integer;
+  Line, Column: Integer;
 begin
   SetLength(Matrix, N);
 
   for Line := Low(Matrix) to High(Matrix) do
     SetLength(Matrix[Line], N);
+
+  for Line := Low(Matrix) to High(Matrix) do
+  begin
+    for Column := Low(Matrix) to High(Matrix) do
+    begin
+      Matrix[Line][Column] := NegativeValue;
+    end;
+  end;
 
   Result := Matrix;
 end;
@@ -61,7 +91,7 @@ begin
   begin
     for Column := 0 to Pred(N) do
     begin
-      Matrix[Line][Column] := Pascal(Line, Column).ToString;
+      Matrix[Line][Column] := Pascal(Line, Column);
     end;
   end;
   Result := Matrix;
@@ -69,8 +99,10 @@ end;
 
 class function TAlgorithms.Pascal(const Line, Column: Integer): Integer;
 begin
+  Result := 1;
+
   if (Line < 1) or (Column < 1) then
-    Exit(1);
+    Exit;
 
   Result := Pascal(Line, Pred(Column)) + Pascal(Pred(Line), Column);
 end;
