@@ -34,6 +34,7 @@ type
     function LengthOfHighestElement: Integer;
     function GetInput: Integer;
     procedure SetInput(const Value: Integer);
+    procedure PrintInitialInfo;
   public
     property Input: Integer read GetInput write SetInput;
     property Matrix: TMatrix read FMatrix write FMatrix;
@@ -64,8 +65,8 @@ end;
 
 procedure TMain.FormShow(Sender: TObject);
 begin
+  PrintInitialInfo;
   Input := 0;
-  Output.Clear;
   InputEdit.SetFocus;
 end;
 
@@ -83,7 +84,7 @@ function TMain.LengthOfHighestElement: Integer;
 var
   Middle, Element: Integer;
 begin
-  Middle := Ceil(Input / 2);
+  Middle := Floor(Input / 2);
   Element := Matrix[Middle][Middle];
   Result := Length(Element.ToString);
 end;
@@ -96,6 +97,16 @@ end;
 procedure TMain.SetInput(const Value: Integer);
 begin
   InputEdit.Text := Value.ToString;
+end;
+
+procedure TMain.PrintInitialInfo;
+begin
+  Output.Clear;
+  Output.Lines.Add('Disciplina: Projeto e Análise de Algoritmos');
+  Output.Lines.Add('Professor: Rodrigo Calvo');
+  Output.Lines.Add('Autor: Douglas Mezuraro - RA: 95676 - email: ra95676@uem.com.br');
+  Output.Lines.Add('Autor: Ronnie Petterson Bueno - RA: 91938 - email: ra91938@uem.com.br');
+  Output.Lines.Add('URL do repositório GIT: https://github.com/douglasmezuraro/paa-pascal-triangle');
 end;
 
 end.

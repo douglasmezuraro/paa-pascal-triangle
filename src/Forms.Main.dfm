@@ -1,9 +1,10 @@
 object Main: TMain
   Left = 0
   Top = 0
-  Caption = 'Main'
-  ClientHeight = 325
-  ClientWidth = 446
+  BorderIcons = [biSystemMenu]
+  Caption = 'Segundo trabalho de PAA'
+  ClientHeight = 600
+  ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,14 +12,17 @@ object Main: TMain
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Output: TMemo
-    Left = 8
-    Top = 45
-    Width = 430
-    Height = 272
+    Left = 0
+    Top = 43
+    Width = 800
+    Height = 557
+    Align = alCustom
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -15
@@ -48,7 +52,7 @@ object Main: TMain
     Left = 376
     Top = 16
     object ActionCalculate: TAction
-      Caption = 'Calcular'
+      Caption = '&Calcular'
       OnExecute = ActionCalculateExecute
     end
   end
