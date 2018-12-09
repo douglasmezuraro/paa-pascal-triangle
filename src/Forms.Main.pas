@@ -26,7 +26,7 @@ type
   private
     FMatrix: TMatrix;
     function FormatElement(const Element: Integer): string;
-    function LengthOfHighestElement: Integer;
+    function MaxLength: Integer;
     function GetInput: Integer;
     procedure SetInput(const Value: Integer);
     procedure PrintInitialInfo;
@@ -56,21 +56,19 @@ end;
 
 function TMain.FormatElement(const Element: Integer): string;
 var
-  Length: Integer;
   Mask: string;
 begin
-  Length := LengthOfHighestElement;
-  Mask := '%.' + Length.ToString + 'd';
+  Mask := '%.' + MaxLength.ToString + 'd';
   Result := Format(Mask, [Element]);
 end;
 
-function TMain.LengthOfHighestElement: Integer;
+function TMain.MaxLength: Integer;
 var
-  Middle, Element: Integer;
+  Index, Element: Integer;
 begin
-  Middle := Floor(Input / 2);
-  Element := Matrix[Middle][Middle];
-  Result := Length(Element.ToString);
+  Index := Floor(Input / 2);
+  Element := Matrix[Index][Index];
+  Result := Element.ToString.Length;
 end;
 
 function TMain.GetInput: Integer;
