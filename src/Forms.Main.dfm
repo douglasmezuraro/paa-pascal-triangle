@@ -13,40 +13,38 @@ object Main: TMain
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Output: TMemo
-    Left = 0
-    Top = 43
-    Width = 800
-    Height = 557
-    Align = alCustom
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -15
-    Font.Name = 'Calibri'
-    Font.Style = []
-    Lines.Strings = (
-      'Output')
-    ParentFont = False
-    TabOrder = 0
-  end
-  object InputEdit: TEdit
-    Left = 8
-    Top = 16
-    Width = 121
-    Height = 21
-    TabOrder = 1
-  end
   object Button: TButton
     Left = 135
     Top = 14
     Width = 75
     Height = 25
     Action = ActionCalculate
+    TabOrder = 1
+  end
+  object Output: TStringGrid
+    Left = 8
+    Top = 45
+    Width = 784
+    Height = 484
+    ColCount = 1
+    FixedCols = 0
+    RowCount = 1
+    FixedRows = 0
     TabOrder = 2
+    ColWidths = (
+      64)
+  end
+  object InputEdit: TSpinEdit
+    Left = 8
+    Top = 17
+    Width = 121
+    Height = 22
+    MaxValue = 9999
+    MinValue = 1
+    TabOrder = 0
+    Value = 0
   end
   object ActionList: TActionList
     Left = 376
