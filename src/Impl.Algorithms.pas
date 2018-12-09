@@ -16,11 +16,11 @@ type
     { without using dynamic-programming }
     class function Pascal(const N: Integer): TMatrix; overload;
       deprecated 'Use DynPascal';
-    class function Pascal(const Line, Column: Integer): Integer; overload;
+    class function Pascal(const Row, Column: Integer): Integer; overload;
       deprecated 'Use DynPascal';
     { using dynamic-programming }
     class function DynPascal(const N: Integer): TMatrix; overload;
-    class function DynPascal(const Line, Column: Integer;
+    class function DynPascal(const Row, Column: Integer;
       const Matrix: TMatrix): Integer; overload;
   end;
 
@@ -31,46 +31,46 @@ implementation
 class function TAlgorithms.DynPascal(const N: Integer): TMatrix;
 var
   Matrix: TMatrix;
-  Line, Column: Integer;
+  Row, Column: Integer;
 begin
   Matrix := Initialize(N);
-  for Line := Low(Matrix) to High(Matrix) do
+  for Row := Low(Matrix) to High(Matrix) do
   begin
     for Column := Low(Matrix) to High(Matrix) do
     begin
-      Matrix[Line][Column] := DynPascal(Line, Column, Matrix);
+      Matrix[Row][Column] := DynPascal(Row, Column, Matrix);
     end;
   end;
   Result := Matrix;
 end;
 
-class function TAlgorithms.DynPascal(const Line, Column: Integer;
+class function TAlgorithms.DynPascal(const Row, Column: Integer;
   const Matrix: TMatrix): Integer;
 begin
-  Result := Matrix[Line][Column];
+  Result := Matrix[Row][Column];
 
   if Result <> NegativeValue then
     Exit;
 
   Result := 1;
 
-  if (Line < 1) or (Column < 1) then
+  if (Row < 1) or (Column < 1) then
     Exit;
 
-  Result := DynPascal(Line, Pred(Column), Matrix) + DynPascal(Pred(Line), Column, Matrix);
+  Result := DynPascal(Row, Pred(Column), Matrix) + DynPascal(Pred(Row), Column, Matrix);
 end;
 
 class function TAlgorithms.Initialize(const N: Integer): TMatrix;
 var
   Matrix: TMatrix;
-  Line, Column: Integer;
+  Row, Column: Integer;
 begin
   SetLength(Matrix, N, N);
-  for Line := Low(Matrix) to High(Matrix) do
+  for Row := Low(Matrix) to High(Matrix) do
   begin
     for Column := Low(Matrix) to High(Matrix) do
     begin
-      Matrix[Line][Column] := NegativeValue;
+      Matrix[Row][Column] := NegativeValue;
     end;
   end;
   Result := Matrix;
@@ -79,27 +79,27 @@ end;
 class function TAlgorithms.Pascal(const N: Integer): TMatrix;
 var
   Matrix: TMatrix;
-  Line, Column: Integer;
+  Row, Column: Integer;
 begin
   Matrix := Initialize(N);
-  for Line := 0 to Pred(N) do
+  for Row := 0 to Pred(N) do
   begin
     for Column := 0 to Pred(N) do
     begin
-      Matrix[Line][Column] := Pascal(Line, Column);
+      Matrix[Row][Column] := Pascal(Row, Column);
     end;
   end;
   Result := Matrix;
 end;
 
-class function TAlgorithms.Pascal(const Line, Column: Integer): Integer;
+class function TAlgorithms.Pascal(const Row, Column: Integer): Integer;
 begin
   Result := 1;
 
-  if (Line < 1) or (Column < 1) then
+  if (Row < 1) or (Column < 1) then
     Exit;
 
-  Result := Pascal(Line, Pred(Column)) + Pascal(Pred(Line), Column);
+  Result := Pascal(Row, Pred(Column)) + Pascal(Pred(Row), Column);
 end;
 
 end.

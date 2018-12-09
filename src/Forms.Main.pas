@@ -35,6 +35,7 @@ type
     function GetInput: Integer;
     procedure SetInput(const Value: Integer);
     procedure PrintInitialInfo;
+    procedure PrintMatrix;
   public
     property Input: Integer read GetInput write SetInput;
     property Matrix: TMatrix read FMatrix write FMatrix;
@@ -45,22 +46,10 @@ implementation
 {$R *.dfm}
 
 procedure TMain.ActionCalculateExecute(Sender: TObject);
-var
-  Line, Column: Integer;
-  Element, Elements: string;
 begin
   Output.Clear;
-  Matrix := TAlgorithms.DynPascal(Input);
-  for Line := Low(Matrix) to High(Matrix) do
-  begin
-    Elements := string.Empty;
-    for Column := Low(Matrix) to Pred(Input) - Line do
-    begin
-      Element := FormatElement(Matrix[Line][Column]);
-      Elements := Elements + Element;
-    end;
-    Output.Lines.Insert(Line, Elements);
-  end;
+  Matrix := TAlgorithms.Pascal(Input);
+  PrintMatrix;
 end;
 
 procedure TMain.FormShow(Sender: TObject);
@@ -107,6 +96,23 @@ begin
   Output.Lines.Add('Autor: Douglas Mezuraro - RA: 95676 - email: ra95676@uem.com.br');
   Output.Lines.Add('Autor: Ronnie Petterson Bueno - RA: 91938 - email: ra91938@uem.com.br');
   Output.Lines.Add('URL do repositório GIT: https://github.com/douglasmezuraro/paa-pascal-triangle');
+end;
+
+procedure TMain.PrintMatrix;
+var
+  Row, Column: Integer;
+  Element, Line: string;
+begin
+  for Row := Low(Matrix) to High(Matrix) do
+  begin
+    Line := string.Empty;
+    for Column := Low(Matrix) to Pred(Input) - Row do
+    begin
+      Element := FormatElement(Matrix[Row][Column]);
+      Line := Line + Element;
+    end;
+    Output.Lines.Insert(Row, Line);
+  end;
 end;
 
 end.
