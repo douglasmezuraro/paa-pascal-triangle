@@ -3,7 +3,8 @@ unit Impl.Types;
 interface
 
 type
-  TMatrix = TArray<TArray<Integer>>;
+  TRow = TArray<Integer>;
+  TMatrix = TArray<TRow>;
 
 implementation
 

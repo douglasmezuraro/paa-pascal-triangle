@@ -13,8 +13,8 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
-  Impl.Algorithms,
-  Impl.Types,
+  Impl.PascalTriangle,
+  Impl.Matrix,
   System.Actions,
   Vcl.ActnList,
   Vcl.StdCtrls;
@@ -48,7 +48,7 @@ implementation
 procedure TMain.ActionCalculateExecute(Sender: TObject);
 begin
   Output.Clear;
-  Matrix := TAlgorithms.Pascal(Input);
+  Matrix := TPascalTriangle.Pascal(Input);
   PrintMatrix;
 end;
 
