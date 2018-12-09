@@ -3,20 +3,15 @@ unit Forms.Main;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
-  System.SysUtils,
-  System.Variants,
-  System.Classes,
-  System.Math,
-  Vcl.Graphics,
-  Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
   Impl.PascalTriangle,
   Impl.Matrix,
   System.Actions,
+  System.Classes,
+  System.Math,
+  System.SysUtils,
   Vcl.ActnList,
+  Vcl.Controls,
+  Vcl.Forms,
   Vcl.StdCtrls;
 
 type
@@ -65,7 +60,7 @@ var
   Mask: string;
 begin
   Length := LengthOfHighestElement;
-  Mask := '%.' + Length.ToString + 'd ';
+  Mask := '%.' + Length.ToString + 'd';
   Result := Format(Mask, [Element]);
 end;
 
@@ -99,6 +94,8 @@ begin
 end;
 
 procedure TMain.PrintMatrix;
+const
+  Separator = ' ';
 var
   Row, Column: Integer;
   Element, Line: string;
@@ -109,9 +106,9 @@ begin
     for Column := Low(Matrix) to Pred(Input) - Row do
     begin
       Element := FormatElement(Matrix[Row][Column]);
-      Line := Line + Element;
+      Line := Line + Element + Separator;
     end;
-    Output.Lines.Insert(Row, Line);
+    Output.Lines.Add(Line);
   end;
 end;
 

@@ -3,8 +3,8 @@ program Pascal.Triangle;
 uses
   Vcl.Forms,
   Forms.Main in 'Forms.Main.pas' {Main},
-  Impl.Algorithms in 'Impl.Algorithms.pas',
-  Impl.Types in 'Impl.Types.pas';
+  Impl.PascalTriangle in 'Impl.PascalTriangle.pas',
+  Impl.Matrix in 'Impl.Matrix.pas';
 
 {$R *.res}
 
@@ -16,4 +16,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMain, Main);
   Application.Run;
+  ReportMemoryLeaksOnShutdown := True;
 end.

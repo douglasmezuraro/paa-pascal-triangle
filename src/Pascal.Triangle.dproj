@@ -95,8 +95,8 @@
             <Form>Main</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Impl.Algorithms.pas"/>
-        <DCCReference Include="Impl.Types.pas"/>
+        <DCCReference Include="Impl.PascalTriangle.pas"/>
+        <DCCReference Include="Impl.Matrix.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -4,7 +4,6 @@ interface
 
 uses
   Impl.Matrix,
-  System.Classes,
   System.SysUtils;
 
 type
@@ -13,7 +12,6 @@ type
     class function Pascal(const Size: Integer): TMatrix; overload;
     class function Pascal(const Row, Column: Integer;
       const Matrix: TMatrix): Integer; overload;
-    class function ToString(const Matrix: TMatrix): TStrings;
   end;
 
 implementation
@@ -55,11 +53,6 @@ begin
   end;
 
   Result := Pascal(Row, Pred(Column), Matrix) + Pascal(Pred(Row), Column, Matrix);
-end;
-
-class function TPascalTriangle.ToString(const Matrix: TMatrix): TStrings;
-begin
-  Result := nil;
 end;
 
 end.
