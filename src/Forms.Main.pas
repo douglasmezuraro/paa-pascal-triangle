@@ -13,7 +13,8 @@ uses
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Grids,
-  Vcl.StdCtrls, Vcl.Samples.Spin;
+  Vcl.Samples.Spin,
+  Vcl.StdCtrls;
 
 type
   TMain = class(TForm)
@@ -28,9 +29,8 @@ type
     procedure SetInput(const Value: Integer);
   private
     procedure Calculate;
+    procedure SetUpOutput;
     procedure FillOutput(const Matrix: TMatrix);
-    procedure ClearOutput;
-    procedure SetLength;
     procedure AutoFitColumns(const Matrix: TMatrix);
   public
     property Input: Integer read GetInput write SetInput;
@@ -55,12 +55,6 @@ begin
   InputEdit.Value := Value;
 end;
 
-procedure TMain.SetLength;
-begin
-  Output.ColCount := Input;
-  Output.RowCount := Input;
-end;
-
 procedure TMain.Calculate;
 var
   Matrix: TMatrix;
@@ -69,22 +63,22 @@ begin
   FillOutput(Matrix);
 end;
 
-procedure TMain.ClearOutput;
+procedure TMain.SetUpOutput;
 var
   Row: Integer;
 begin
+  Output.ColCount := Input;
+  Output.RowCount := Input;
+
   for Row := 0 to Pred(Output.RowCount) do
-  begin
     Output.Rows[Row].Clear;
-  end;
 end;
 
 procedure TMain.FillOutput(const Matrix: TMatrix);
 var
   Row, Column: Integer;
 begin
-  SetLength;
-  ClearOutput;
+  SetUpOutput;
   for Row := Low(Matrix) to High(Matrix) do
   begin
     for Column := Low(Matrix) to Pred(Input) - Row do
@@ -100,16 +94,16 @@ const
   BlankWidth = 10;
   MinWidth = BlankWidth * 3;
 var
-  MaxElementIndex, MaxElementValue, MaxElementWidth, Size: Integer;
+  MaxElementIndex, MaxElementValue, MaxElementWidth, Width: Integer;
 begin
   MaxElementIndex := Floor(Input / 2);
   MaxElementValue := Matrix[MaxElementIndex][MaxElementIndex];
   MaxElementWidth := Canvas.TextWidth(MaxElementValue.ToString);
 
-  Size := MaxElementWidth + BlankWidth + Output.GridLineWidth;
+  Width := MaxElementWidth + BlankWidth + Output.GridLineWidth;
 
-  Output.DefaultColWidth := Max(Size, MinWidth);
-  Output.DefaultRowHeight := Max(Size, MinWidth);
+  Output.DefaultColWidth := Max(Width, MinWidth);
+  Output.DefaultRowHeight := Max(Width, MinWidth);
 end;
 
 end.
