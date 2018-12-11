@@ -11,6 +11,7 @@ uses
   System.SysUtils,
   Vcl.ActnList,
   Vcl.Controls,
+  Vcl.ExtCtrls,
   Vcl.Forms,
   Vcl.Grids,
   Vcl.Samples.Spin,
@@ -18,11 +19,12 @@ uses
 
 type
   TMain = class(TForm)
-    Button: TButton;
     ActionList: TActionList;
     ActionCalculate: TAction;
     Output: TStringGrid;
+    Panel: TPanel;
     InputEdit: TSpinEdit;
+    Button: TButton;
     procedure ActionCalculateExecute(Sender: TObject);
   strict private
     function GetInput: Integer;
