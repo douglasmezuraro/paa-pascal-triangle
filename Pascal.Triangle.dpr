@@ -5,9 +5,9 @@ program Pascal.Triangle;
 
 uses
   Vcl.Forms,
-  Forms.Main in 'Forms.Main.pas' {Main},
-  Impl.PascalTriangle in 'Impl.PascalTriangle.pas',
-  Impl.Matrix in 'Impl.Matrix.pas';
+  Forms.Main in 'src\Forms.Main.pas' {Main},
+  Impl.PascalTriangle in 'src\Impl.PascalTriangle.pas',
+  Impl.Matrix in 'src\Impl.Matrix.pas';
 
 {$R *.res}
 
