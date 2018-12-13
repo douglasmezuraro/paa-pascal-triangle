@@ -5,7 +5,7 @@ program Pascal.Triangle;
 
 uses
   Vcl.Forms,
-  Forms.Main in 'src\Forms.Main.pas' {Main},
+  Form.Main in 'src\Form.Main.pas' {Main},
   Impl.PascalTriangle in 'src\Impl.PascalTriangle.pas',
   Impl.Matrix in 'src\Impl.Matrix.pas';
 

@@ -8,15 +8,15 @@ uses
 
 type
   TPascalTriangle = class
+  private
+    class function Pascal(const Row, Column: Integer; const Matrix: TMatrix): Integer; overload;
   public
     class function Pascal(const Size: Integer): TMatrix; overload;
-    class function Pascal(const Row, Column: Integer;
-      const Matrix: TMatrix): Integer; overload;
   end;
 
 implementation
 
-{ TAlgorithms }
+{ TPascalTriangle }
 
 class function TPascalTriangle.Pascal(const Size: Integer): TMatrix;
 var
