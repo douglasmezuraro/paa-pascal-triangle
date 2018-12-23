@@ -3,32 +3,58 @@ unit Impl.Matrix;
 interface
 
 type
-  TRow = TArray<Integer>;
-  TMatrix = TArray<TRow>;
-
-const
-  UndefinedValue = -1;
-
-function InitializeMatrix(const Size: Integer;
-  const Value: Integer = UndefinedValue): TMatrix;
+  TMatrix<T> = record
+  private
+    type Row = TArray<T>;
+    type Matrix = TArray<Row>;
+  private
+    FMatrix: Matrix;
+    function GetValue(const Row, Column: Word): T;
+    procedure SetValue(const Row, Column: Word; const Value: T);
+  public
+    constructor Create(const Size: Word; const Value: T);
+    function Low: Word;
+    function High: Word;
+    property Value[const Row, Column: Word]: T read GetValue write SetValue;
+  end;
 
 implementation
 
-function InitializeMatrix(const Size: Integer;
-  const Value: Integer = UndefinedValue): TMatrix;
+{ TMatrix<T> }
+
+constructor TMatrix<T>.Create(const Size: Word; const Value: T);
 var
-  Matrix: TMatrix;
-  Row, Column: Integer;
+  Row, Column: Word;
 begin
-  SetLength(Matrix, Size, Size);
-  for Row := Low(Matrix) to High(Matrix) do
+  SetLength(FMatrix, Size, Size);
+  for Row := Low to High do
   begin
-    for Column := Low(Matrix) to High(Matrix) do
+    for Column := Low to High do
     begin
-      Matrix[Row][Column] := Value;
+      Self.Value[Row, Column] := Value;
     end;
   end;
-  Result := Matrix;
+end;
+
+function TMatrix<T>.GetValue(const Row, Column: Word): T;
+begin
+  Result := FMatrix[Row][Column];
+end;
+
+function TMatrix<T>.High: Word;
+begin
+  Result := System.High(FMatrix);
+end;
+
+function TMatrix<T>.Low: Word;
+begin
+  Result := System.Low(FMatrix);
+end;
+
+procedure TMatrix<T>.SetValue(const Row, Column: Word; const Value: T);
+begin
+  FMatrix[Row][Column] := Value;
 end;
 
 end.
+

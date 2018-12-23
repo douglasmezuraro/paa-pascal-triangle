@@ -7,42 +7,45 @@ uses
   System.SysUtils;
 
 type
+  TIntegerMatrix = TMatrix<Integer>;
+
   TPascalTriangle = class
   private
-    class function Pascal(const Row, Column: Integer; const Matrix: TMatrix): Integer; overload;
+    const UndefinedValue = -1;
+    class function Pascal(const Row, Column: Integer; const Matrix: TIntegerMatrix): Integer; overload;
   public
-    class function Pascal(const Size: Integer): TMatrix; overload;
+    class function Pascal(const Size: Integer): TIntegerMatrix; overload;
   end;
 
 implementation
 
 { TPascalTriangle }
 
-class function TPascalTriangle.Pascal(const Size: Integer): TMatrix;
+class function TPascalTriangle.Pascal(const Size: Integer): TIntegerMatrix;
 var
-  Matrix: TMatrix;
+  Matrix: TIntegerMatrix;
   Row, Column: Integer;
 begin
-  Matrix := InitializeMatrix(Size);
-  for Row := Low(Matrix) to High(Matrix) do
+  Matrix := TIntegerMatrix.Create(Size, UndefinedValue);
+  for Row := Matrix.Low to Matrix.High do
   begin
-    for Column := Low(Matrix) to High(Matrix) do
+    for Column := Matrix.Low to Matrix.High do
     begin
-      Matrix[Row][Column] := Pascal(Row, Column, Matrix);
+      Matrix.Value[Row, Column] := Pascal(Row, Column, Matrix);
     end;
   end;
   Result := Matrix;
 end;
 
 class function TPascalTriangle.Pascal(const Row, Column: Integer;
-  const Matrix: TMatrix): Integer;
+  const Matrix: TIntegerMatrix): Integer;
 const
   EdgeIndex = 0;
   EdgeValue = 1;
 begin
-  if Matrix[Row][Column] <> UndefinedValue then
+  if Matrix.Value[Row, Column] <> UndefinedValue then
   begin
-    Result := Matrix[Row][Column];
+    Result := Matrix.Value[Row, Column];
     Exit;
   end;
 

@@ -32,8 +32,8 @@ type
   private
     procedure Calculate;
     procedure SetUpOutput;
-    procedure FillOutput(const Matrix: TMatrix);
-    procedure AutoFitColumns(const Matrix: TMatrix);
+    procedure FillOutput(const Matrix: TIntegerMatrix);
+    procedure AutoFitColumns(const Matrix: TIntegerMatrix);
   public
     property Input: Integer read GetInput write SetInput;
   end;
@@ -59,7 +59,7 @@ end;
 
 procedure TMain.Calculate;
 var
-  Matrix: TMatrix;
+  Matrix: TIntegerMatrix;
 begin
   Matrix := TPascalTriangle.Pascal(Input);
   FillOutput(Matrix);
@@ -76,22 +76,22 @@ begin
     Output.Rows[Row].Clear;
 end;
 
-procedure TMain.FillOutput(const Matrix: TMatrix);
+procedure TMain.FillOutput(const Matrix: TIntegerMatrix);
 var
   Row, Column: Integer;
 begin
   SetUpOutput;
-  for Row := Low(Matrix) to High(Matrix) do
+  for Row := Matrix.Low to Matrix.High do
   begin
-    for Column := Low(Matrix) to Pred(Input) - Row do
+    for Column := Matrix.Low to Pred(Input) - Row do
     begin
-      Output.Cells[Column, Row] := Matrix[Row][Column].ToString;
+      Output.Cells[Column, Row] := Matrix.Value[Row, Column].ToString;
     end;
   end;
   AutoFitColumns(Matrix);
 end;
 
-procedure TMain.AutoFitColumns(const Matrix: TMatrix);
+procedure TMain.AutoFitColumns(const Matrix: TIntegerMatrix);
 const
   BlankWidth = 10;
   MinWidth = BlankWidth * 3;
@@ -99,7 +99,7 @@ var
   MaxElementIndex, MaxElementValue, MaxElementWidth, Width: Integer;
 begin
   MaxElementIndex := Floor(Input / 2);
-  MaxElementValue := Matrix[MaxElementIndex][MaxElementIndex];
+  MaxElementValue := Matrix.Value[MaxElementIndex, MaxElementIndex];
   MaxElementWidth := Canvas.TextWidth(MaxElementValue.ToString);
 
   Width := MaxElementWidth + BlankWidth + Output.GridLineWidth;
