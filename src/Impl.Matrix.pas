@@ -4,9 +4,9 @@ interface
 
 type
   TMatrix<T> = record
-  private
-    type Row = TArray<T>;
-    type Matrix = TArray<Row>;
+  private type
+    Row = TArray<T>;
+    Matrix = TArray<Row>;
   private
     FMatrix: Matrix;
     function GetValue(const Row, Column: Word): T;

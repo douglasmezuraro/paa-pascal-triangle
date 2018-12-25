@@ -2,7 +2,7 @@ object Main: TMain
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  Caption = 'Segundo trabalho de Projeto e An'#225'lise de Algoritmos'
+  Caption = 'Pascal Triangle'
   ClientHeight = 600
   ClientWidth = 800
   Color = clBtnFace
@@ -52,6 +52,7 @@ object Main: TMain
       Width = 75
       Height = 25
       Action = ActionCalculate
+      Caption = '&Calculate'
       TabOrder = 1
     end
   end

@@ -27,15 +27,17 @@ type
     Button: TButton;
     procedure ActionCalculateExecute(Sender: TObject);
   strict private
+    FMatrix: TIntegerMatrix;
     function GetInput: Integer;
     procedure SetInput(const Value: Integer);
   private
     procedure Calculate;
     procedure SetUpOutput;
-    procedure FillOutput(const Matrix: TIntegerMatrix);
-    procedure AutoFitColumns(const Matrix: TIntegerMatrix);
+    procedure FillOutput;
+    procedure AutoFitColumns;
   public
     property Input: Integer read GetInput write SetInput;
+    property Matrix: TIntegerMatrix read FMatrix write FMatrix;
   end;
 
 implementation
@@ -58,51 +60,49 @@ begin
 end;
 
 procedure TMain.Calculate;
-var
-  Matrix: TIntegerMatrix;
 begin
   Matrix := TPascalTriangle.Pascal(Input);
-  FillOutput(Matrix);
+  FillOutput;
 end;
 
 procedure TMain.SetUpOutput;
 var
   Row: Integer;
 begin
-  Output.ColCount := Input;
-  Output.RowCount := Input;
+  Output.ColCount := Matrix.High;
+  Output.RowCount := Matrix.High;
 
-  for Row := 0 to Pred(Output.RowCount) do
+  for Row := Matrix.Low to Matrix.High do
     Output.Rows[Row].Clear;
 end;
 
-procedure TMain.FillOutput(const Matrix: TIntegerMatrix);
+procedure TMain.FillOutput;
 var
   Row, Column: Integer;
 begin
   SetUpOutput;
   for Row := Matrix.Low to Matrix.High do
   begin
-    for Column := Matrix.Low to Pred(Input) - Row do
+    for Column := Matrix.Low to Pred(Matrix.High) - Row do
     begin
       Output.Cells[Column, Row] := Matrix.Value[Row, Column].ToString;
     end;
   end;
-  AutoFitColumns(Matrix);
+  AutoFitColumns;
 end;
 
-procedure TMain.AutoFitColumns(const Matrix: TIntegerMatrix);
+procedure TMain.AutoFitColumns;
 const
   BlankWidth = 10;
   MinWidth = BlankWidth * 3;
 var
-  MaxElementIndex, MaxElementValue, MaxElementWidth, Width: Integer;
+  Index, Value, Width: Integer;
 begin
-  MaxElementIndex := Floor(Input / 2);
-  MaxElementValue := Matrix.Value[MaxElementIndex, MaxElementIndex];
-  MaxElementWidth := Canvas.TextWidth(MaxElementValue.ToString);
+  Index := Floor(Matrix.High / 2);
+  Value := Matrix.Value[Index, Index];
+  Width := Canvas.TextWidth(Value.ToString);
 
-  Width := MaxElementWidth + BlankWidth + Output.GridLineWidth;
+  Width := Width + BlankWidth + Output.GridLineWidth;
 
   Output.DefaultColWidth := Max(Width, MinWidth);
   Output.DefaultRowHeight := Max(Width, MinWidth);
