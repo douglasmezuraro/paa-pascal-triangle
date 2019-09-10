@@ -3,30 +3,32 @@ unit Impl.PascalTriangle;
 interface
 
 uses
-  Impl.Matrix,
-  System.SysUtils;
+  Impl.Matrix, System.SysUtils;
 
 type
-  TIntegerMatrix = TMatrix<Integer>;
-
-  TPascalTriangle = class
+  TPascalTriangle = class sealed
+  private type
+    TEdge = (Index, Value);
+  private const
+    UndefinedValue = UInt64.MinValue;
+    Edge: array[TEdge] of Byte = (0, 1);
   private
-    const UndefinedValue = -1;
-    class function Pascal(const Row, Column: Integer; const Matrix: TIntegerMatrix): Integer; overload;
+    class function Pascal(const Row, Column: UInt64; const Matrix: TMatrix): UInt64; overload;
   public
-    class function Pascal(const Size: Integer): TIntegerMatrix; overload;
+    class function Pascal(const Size: UInt64): TMatrix; overload;
   end;
 
 implementation
 
 { TPascalTriangle }
 
-class function TPascalTriangle.Pascal(const Size: Integer): TIntegerMatrix;
+class function TPascalTriangle.Pascal(const Size: UInt64): TMatrix;
 var
-  Matrix: TIntegerMatrix;
-  Row, Column: Integer;
+  Matrix: TMatrix;
+  Row, Column: UInt64;
 begin
-  Matrix := TIntegerMatrix.Create(Size, UndefinedValue);
+  Matrix := TMatrix.Create(Size, UndefinedValue);
+
   for Row := Matrix.Low to Matrix.High do
   begin
     for Column := Matrix.Low to Matrix.High do
@@ -34,25 +36,20 @@ begin
       Matrix.Value[Row, Column] := Pascal(Row, Column, Matrix);
     end;
   end;
+
   Result := Matrix;
 end;
 
-class function TPascalTriangle.Pascal(const Row, Column: Integer;
-  const Matrix: TIntegerMatrix): Integer;
-const
-  EdgeIndex = 0;
-  EdgeValue = 1;
+class function TPascalTriangle.Pascal(const Row, Column: UInt64; const Matrix: TMatrix): UInt64;
 begin
   if Matrix.Value[Row, Column] <> UndefinedValue then
   begin
-    Result := Matrix.Value[Row, Column];
-    Exit;
+    Exit(Matrix.Value[Row, Column]);
   end;
 
-  if EdgeIndex in [Row, Column] then
+  if (Row = Edge[Index]) or (Column = Edge[Index]) then
   begin
-    Result := EdgeValue;
-    Exit;
+    Exit(Edge[Value]);
   end;
 
   Result := Pascal(Row, Pred(Column), Matrix) + Pascal(Pred(Row), Column, Matrix);

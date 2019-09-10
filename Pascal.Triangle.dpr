@@ -1,14 +1,12 @@
-// Autor: Douglas Mezuraro - RA: 95676 - email: ra95676@uem.com.br
-// Autor: Ronnie Petterson Bueno - RA: 91938 - email: ra91938@uem.com.br
-// Repositório: https://github.com/douglasmezuraro/paa-pascal-triangle/
-
 program Pascal.Triangle;
 
 uses
-  Vcl.Forms,
-  Form.Main in 'src\Form.Main.pas' {Main},
+  System.StartUpCopy,
+  FMX.Forms,
+  View.Main in 'src\View.Main.pas' {Main},
+  Impl.Matrix in 'src\Impl.Matrix.pas',
   Impl.PascalTriangle in 'src\Impl.PascalTriangle.pas',
-  Impl.Matrix in 'src\Impl.Matrix.pas';
+  Impl.Helper in 'src\Impl.Helper.pas';
 
 {$R *.res}
 
@@ -17,8 +15,10 @@ var
 
 begin
   Application.Initialize;
-  Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMain, Main);
   Application.Run;
-  ReportMemoryLeaksOnShutdown := True;
+
+  {$WARN SYMBOL_PLATFORM OFF}
+  ReportMemoryLeaksOnShutdown := DebugHook > 0;
+  {$WARN SYMBOL_PLATFORM ON}
 end.
