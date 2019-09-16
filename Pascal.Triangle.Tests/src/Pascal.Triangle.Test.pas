@@ -13,7 +13,7 @@ type
     procedure TestPascalTriangleWhenSizeIsTwo;
     procedure TestPascalTriangleWhenSizeIsFour;
     procedure TestPascalTriangleWhenSizeIsEight;
-    procedure TestPascalTriangleWHenSizeIsSixteen;
+    procedure TestPascalTriangleWhenSizeIsSixteen;
   end;
 
 implementation
@@ -81,7 +81,7 @@ begin
   CheckEquals(LExpected, LMatrix);
 end;
 
-procedure PascalTriangleTest.TestPascalTriangleWHenSizeIsSixteen;
+procedure PascalTriangleTest.TestPascalTriangleWhenSizeIsSixteen;
 const
   LExpected: Matrix = [[0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001, 0001],
                        [0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010, 0011, 0012, 0013, 0014, 0015, 0000],
