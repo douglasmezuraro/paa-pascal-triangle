@@ -3,13 +3,10 @@ unit Pascal.Triangle.Test;
 interface
 
 uses
-  TestFramework, TestFramework.Helpers, Impl.Matrix, System.SysUtils,
-  Impl.PascalTriangle;
+  TestFramework, TestFramework.Helpers, Impl.Matrix, System.SysUtils, Impl.PascalTriangle;
 
 type
   PascalTriangleTest = class(TTestCase)
-  private
-    type Matrix = TArray<TArray<UInt64>>;
   published
     procedure TestPascalTriangleWhenSizeIsZero;
     procedure TestPascalTriangleWhenSizeIsOne;

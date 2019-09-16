@@ -6,21 +6,20 @@ uses
   TestFramework, System.SysUtils;
 
 type
+  Matrix = TArray<TArray<UInt64>>;
   TCheckArrayTestCase = class Helper for TTestCase
   strict private
-    function MatrixToString(const Value: TArray<TArray<UInt64>>): string;
-    function EqualsMatrix(const A, B: TArray<TArray<UInt64>>): Boolean;
+    function MatrixToString(const Value: Matrix): string;
+    function EqualsMatrix(const A, B: Matrix): Boolean;
   public
-    procedure CheckEquals(const Expected, Actual: TArray<TArray<UInt64>>;
-      const Msg: string = string.Empty);
+    procedure CheckEquals(const Expected, Actual: Matrix; const Msg: string = string.Empty);
   end;
 
 implementation
 
 { TCheckArrayTestCase }
 
-procedure TCheckArrayTestCase.CheckEquals(const Expected, Actual:
-  TArray<TArray<UInt64>>; const Msg: string);
+procedure TCheckArrayTestCase.CheckEquals(const Expected, Actual: Matrix; const Msg: string);
 var
   LMsg: string;
   Equals: Boolean;
@@ -33,7 +32,7 @@ begin
   CheckTrue(Equals, LMsg);
 end;
 
-function TCheckArrayTestCase.EqualsMatrix(const A, B: TArray<TArray<UInt64>>): Boolean;
+function TCheckArrayTestCase.EqualsMatrix(const A, B: Matrix): Boolean;
 var
   Line, Column: Integer;
 begin
@@ -51,7 +50,7 @@ begin
   Result := True;
 end;
 
-function TCheckArrayTestCase.MatrixToString(const Value: TArray<TArray<UInt64>>): string;
+function TCheckArrayTestCase.MatrixToString(const Value: Matrix): string;
 var
   Line, Column: Integer;
 begin
