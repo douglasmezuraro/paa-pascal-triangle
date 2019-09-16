@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{59CD5506-9196-4110-B4F9-A8E89AE24E92}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Pascal.Triangle\pkg\Pascal.Triangle.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Pascal.Triangle.Tests\pkg\Pascal.Triangle.Tests.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Pascal_Triangle">
+        <MSBuild Projects="Pascal.Triangle\pkg\Pascal.Triangle.dproj"/>
+    </Target>
+    <Target Name="Pascal_Triangle:Clean">
+        <MSBuild Projects="Pascal.Triangle\pkg\Pascal.Triangle.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Pascal_Triangle:Make">
+        <MSBuild Projects="Pascal.Triangle\pkg\Pascal.Triangle.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Pascal_Triangle_Tests">
+        <MSBuild Projects="Pascal.Triangle.Tests\pkg\Pascal.Triangle.Tests.dproj"/>
+    </Target>
+    <Target Name="Pascal_Triangle_Tests:Clean">
+        <MSBuild Projects="Pascal.Triangle.Tests\pkg\Pascal.Triangle.Tests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Pascal_Triangle_Tests:Make">
+        <MSBuild Projects="Pascal.Triangle.Tests\pkg\Pascal.Triangle.Tests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Pascal_Triangle;Pascal_Triangle_Tests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Pascal_Triangle:Clean;Pascal_Triangle_Tests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Pascal_Triangle:Make;Pascal_Triangle_Tests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

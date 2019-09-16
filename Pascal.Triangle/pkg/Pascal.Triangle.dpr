@@ -3,10 +3,10 @@ program Pascal.Triangle;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  View.Main in 'src\View.Main.pas' {Main},
-  Impl.Matrix in 'src\Impl.Matrix.pas',
-  Impl.PascalTriangle in 'src\Impl.PascalTriangle.pas',
-  Impl.Helper in 'src\Impl.Helper.pas';
+  View.Main in '..\src\View\View.Main.pas' {Main},
+  Impl.PascalTriangle in '..\src\Impl\Impl.PascalTriangle.pas',
+  Impl.Matrix in '..\src\Impl\Impl.Matrix.pas',
+  Impl.Helper in '..\src\Impl\Impl.Helper.pas';
 
 {$R *.res}
 
@@ -19,6 +19,7 @@ begin
   Application.Run;
 
   {$WARN SYMBOL_PLATFORM OFF}
-  ReportMemoryLeaksOnShutdown := DebugHook > 0;
+  ReportMemoryLeaksOnShutdown := WordBool(DebugHook);
   {$WARN SYMBOL_PLATFORM ON}
 end.
+

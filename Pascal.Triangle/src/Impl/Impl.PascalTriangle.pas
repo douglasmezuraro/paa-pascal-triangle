@@ -29,9 +29,12 @@ var
 begin
   Matrix := TMatrix.Create(Size, UndefinedValue);
 
+  if Size = UInt64.MinValue then
+    Exit(Matrix);
+
   for Row := Matrix.Low to Matrix.High do
   begin
-    for Column := Matrix.Low to Matrix.High do
+    for Column := Matrix.Low to Matrix.High - Row do
     begin
       Matrix.Value[Row, Column] := Pascal(Row, Column, Matrix);
     end;

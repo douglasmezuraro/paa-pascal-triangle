@@ -2,6 +2,9 @@ unit Impl.Matrix;
 
 interface
 
+uses
+  System.SysUtils;
+
 type
   TMatrix<T> = record
   private type
@@ -16,7 +19,8 @@ type
     function GetSize: Word;
     procedure SetValue(const Row, Column: Word; const Value: T);
   public
-    constructor Create(const GetSize: Word; const Value: T);
+    constructor Create(const Size: Word; const Value: T);
+    function AsMatrix: Matrix;
     property Value[const Row, Column: Word]: T read GetValue write SetValue;
     property Low: Word read GetLow;
     property High: Word read GetHigh;
@@ -29,15 +33,24 @@ implementation
 
 { TMatrix<T> }
 
-constructor TMatrix<T>.Create(const GetSize: Word; const Value: T);
+function TMatrix<T>.AsMatrix: Matrix;
+begin
+  Result := FMatrix;
+end;
+
+constructor TMatrix<T>.Create(const Size: Word; const Value: T);
 var
   Row, Column: Word;
 begin
-  FSize := GetSize;
+  FSize := Size;
   SetLength(FMatrix, FSize, FSize);
-  for Row := GetLow to GetHigh do
+
+  if FSize = Word.MinValue then
+    Exit;
+
+  for Row := Low to High do
   begin
-    for Column := GetLow to GetHigh do
+    for Column := Low to High do
     begin
       Self.Value[Row, Column] := Value;
     end;

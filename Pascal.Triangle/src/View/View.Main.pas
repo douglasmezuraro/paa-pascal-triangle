@@ -34,7 +34,7 @@ procedure TMain.Calculate;
 var
   Input: UInt8;
 begin
-  Input := StrToIntDef(EditInput.Text, Input.MinValue);
+  Input := StrToUIntDef(EditInput.Text, UInt8.MinValue);
   if Input <> FMatrix.Size then
   begin
     FMatrix := TPascalTriangle.Pascal(Input);
