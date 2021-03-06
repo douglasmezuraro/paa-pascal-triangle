@@ -73,12 +73,11 @@ end;
 
 function TPascalTriangle.ToString: string;
 var
-  SB: TStringBuilder;
-  LRow, LColumn, LValue: Integer;
-  LValues, LBorders: string;
-  Letter: string;
+  LStringBuilder: TStringBuilder;
+  LRow, LColumn: Integer;
+  AChar, LValues, LBorders: string;
 begin
-  SB := TStringBuilder.Create;
+  LStringBuilder := TStringBuilder.Create;
   try
     for LRow := FMatrix.Low to FMatrix.High do
     begin
@@ -94,9 +93,9 @@ begin
       end;
 
       LValues := LValues + '|';
-      for Letter in LValues do
+      for AChar in LValues do
       begin
-        if Letter = '|' then
+        if AChar = '|' then
           LBorders := LBorders + '+'
         else
           LBorders := LBorders + '-';
@@ -104,16 +103,16 @@ begin
 
       if LRow = 0 then
       begin
-        SB.AppendLine(LBorders);
+        LStringBuilder.AppendLine(LBorders);
       end;
 
-      SB.AppendLine(LValues);
-      SB.AppendLine(LBorders);
+      LStringBuilder.AppendLine(LValues);
+      LStringBuilder.AppendLine(LBorders);
     end;
 
-    Result := SB.ToString;
+    Result := LStringBuilder.ToString;
   finally
-    SB.Free;
+    LStringBuilder.Free;
   end;
 end;
 
