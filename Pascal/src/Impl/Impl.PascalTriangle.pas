@@ -20,7 +20,7 @@ type
     function Pascal(const ASize: Integer): TMatrix; overload;
   public
     constructor Create(const ASize: Integer);
-    procedure Print;
+    function ToString: string; override;
   end;
 
 implementation
@@ -71,41 +71,49 @@ begin
   Result := Pascal(ARow, Pred(AColumn), AMatrix) + Pascal(Pred(ARow), AColumn, AMatrix);
 end;
 
-procedure TPascalTriangle.Print;
+function TPascalTriangle.ToString: string;
 var
+  SB: TStringBuilder;
   LRow, LColumn, LValue: Integer;
   LValues, LBorders: string;
   Letter: string;
 begin
-  for LRow := FMatrix.Low to FMatrix.High do
-  begin
-    LValues := string.Empty;
-    LBorders := string.Empty;
-
-    for LColumn := FMatrix.Low to FMatrix.High do
+  SB := TStringBuilder.Create;
+  try
+    for LRow := FMatrix.Low to FMatrix.High do
     begin
-      if FMatrix.Value[LRow, LColumn] > 0 then
+      LValues := string.Empty;
+      LBorders := string.Empty;
+
+      for LColumn := FMatrix.Low to FMatrix.High do
       begin
-        LValues := LValues + '|' + FMatrix.Value[LRow, LColumn].ToString.PadLeft(FMaxValue.ToString.Length);
+        if FMatrix.Value[LRow, LColumn] > 0 then
+        begin
+          LValues := LValues + '|' + FMatrix.Value[LRow, LColumn].ToString.PadLeft(FMaxValue.ToString.Length);
+        end;
       end;
+
+      LValues := LValues + '|';
+      for Letter in LValues do
+      begin
+        if Letter = '|' then
+          LBorders := LBorders + '+'
+        else
+          LBorders := LBorders + '-';
+      end;
+
+      if LRow = 0 then
+      begin
+        SB.AppendLine(LBorders);
+      end;
+
+      SB.AppendLine(LValues);
+      SB.AppendLine(LBorders);
     end;
 
-    LValues := LValues + '|';
-    for Letter in LValues do
-    begin
-      if Letter = '|' then
-        LBorders := LBorders + '+'
-      else
-        LBorders := LBorders + '-';
-    end;
-
-    if LRow = 0 then
-    begin
-      Writeln(LBorders);
-    end;
-
-    WriteLn(LValues);
-    Writeln(LBorders);
+    Result := SB.ToString;
+  finally
+    SB.Free;
   end;
 end;
 
