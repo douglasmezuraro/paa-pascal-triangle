@@ -9,6 +9,9 @@
         <Projects Include="Pascal.Triangle.Tests\pkg\Pascal.Triangle.Tests.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Pascal\Pascal.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="Pascal_Triangle_Tests:Make">
         <MSBuild Projects="Pascal.Triangle.Tests\pkg\Pascal.Triangle.Tests.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Pascal">
+        <MSBuild Projects="Pascal\Pascal.dproj"/>
+    </Target>
+    <Target Name="Pascal:Clean">
+        <MSBuild Projects="Pascal\Pascal.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Pascal:Make">
+        <MSBuild Projects="Pascal\Pascal.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="Pascal_Triangle;Pascal_Triangle_Tests"/>
+        <CallTarget Targets="Pascal_Triangle;Pascal_Triangle_Tests;Pascal"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Pascal_Triangle:Clean;Pascal_Triangle_Tests:Clean"/>
+        <CallTarget Targets="Pascal_Triangle:Clean;Pascal_Triangle_Tests:Clean;Pascal:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Pascal_Triangle:Make;Pascal_Triangle_Tests:Make"/>
+        <CallTarget Targets="Pascal_Triangle:Make;Pascal_Triangle_Tests:Make;Pascal:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
