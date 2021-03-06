@@ -15,7 +15,7 @@ var
 begin
   LPascalTriangle := TPascalTriangle.Create(10);
   try
-    LPascalTriangle.Print;
+    Write(LPascalTriangle.ToString);
   finally
     LPascalTriangle.Free;
   end;

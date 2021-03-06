@@ -32,9 +32,9 @@ var
   LMatrix: TMatrix;
   LRow, LColumn, LValue: Integer;
 begin
-  LMatrix := TMatrix.Create(ASize, 0);
+  LMatrix := TMatrix.Create(ASize, ZeroValue);
 
-  if ASize < 1 then
+  if ASize < PositiveValue then
   begin
     Exit(LMatrix);
   end;

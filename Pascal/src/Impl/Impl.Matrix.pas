@@ -3,7 +3,7 @@ unit Impl.Matrix;
 interface
 
 uses
-  System.StrUtils, System.SysUtils;
+  System.Math, System.StrUtils, System.SysUtils;
 
 type
   TMatrix = record
@@ -32,9 +32,9 @@ var
 begin
   SetLength(FMatrix, ASize, ASize);
 
-  if FSize = 0 then
+  if FSize < PositiveValue then
   begin
-    Exit;
+    raise EArgumentException.Create('The matrix size must be positive.');
   end;
 
   FSize := ASize;
@@ -82,7 +82,7 @@ begin
 
       for LColumn := Low to High do
       begin
-        if Value[LRow, LColumn] > 0 then
+        if Value[LRow, LColumn] >= PositiveValue then
         begin
           LValue := LValue + '|' + Value[LRow, LColumn].ToString.PadLeft(AColumnLength);
         end;
