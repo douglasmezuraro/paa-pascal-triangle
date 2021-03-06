@@ -7,14 +7,11 @@ uses
 
 type
   TPascalTriangle = class sealed
-  private type
-    TEdge = (Index, Value);
-  private const
-    Edge: array[TEdge] of Byte = (0, 1);
   strict private
-    FSize: Integer;
-    FMaxValue: Integer;
     FMatrix: TMatrix;
+    FMaxValue: Integer;
+    type TEdge = (Index, Value);
+    const Edge: array[TEdge] of Byte = (0, 1);
   private
     function Pascal(const ARow, AColumn: Integer; const AMatrix: TMatrix): Integer; overload;
     function Pascal(const ASize: Integer): TMatrix; overload;
@@ -27,7 +24,6 @@ implementation
 
 constructor TPascalTriangle.Create(const ASize: Integer);
 begin
-  FSize := ASize;
   FMatrix := Pascal(ASize)
 end;
 
@@ -48,7 +44,7 @@ begin
     for LColumn := LMatrix.Low to LMatrix.High - LRow do
     begin
       LValue := Pascal(LRow, LColumn, LMatrix);
-      FMaxValue := Max(LValue, FMaxValue);
+      FMaxValue := System.Math.Max(LValue, FMaxValue);
       LMatrix.Value[LRow, LColumn] := LValue;
     end;
   end;
@@ -63,7 +59,7 @@ begin
     Exit(AMatrix.Value[ARow, AColumn]);
   end;
 
-  if (ARow = Edge[Index]) or (AColumn = Edge[Index]) then
+  if Edge[Index] in [ARow, AColumn] then
   begin
     Exit(Edge[Value]);
   end;
@@ -72,48 +68,8 @@ begin
 end;
 
 function TPascalTriangle.ToString: string;
-var
-  LStringBuilder: TStringBuilder;
-  LRow, LColumn: Integer;
-  AChar, LValues, LBorders: string;
 begin
-  LStringBuilder := TStringBuilder.Create;
-  try
-    for LRow := FMatrix.Low to FMatrix.High do
-    begin
-      LValues := string.Empty;
-      LBorders := string.Empty;
-
-      for LColumn := FMatrix.Low to FMatrix.High do
-      begin
-        if FMatrix.Value[LRow, LColumn] > 0 then
-        begin
-          LValues := LValues + '|' + FMatrix.Value[LRow, LColumn].ToString.PadLeft(FMaxValue.ToString.Length);
-        end;
-      end;
-
-      LValues := LValues + '|';
-      for AChar in LValues do
-      begin
-        if AChar = '|' then
-          LBorders := LBorders + '+'
-        else
-          LBorders := LBorders + '-';
-      end;
-
-      if LRow = 0 then
-      begin
-        LStringBuilder.AppendLine(LBorders);
-      end;
-
-      LStringBuilder.AppendLine(LValues);
-      LStringBuilder.AppendLine(LBorders);
-    end;
-
-    Result := LStringBuilder.ToString;
-  finally
-    LStringBuilder.Free;
-  end;
+  Result := FMatrix.ToString(FMaxValue.ToString.Length);
 end;
 
 end.

@@ -3,7 +3,7 @@ unit Impl.Matrix;
 interface
 
 uses
-  System.SysUtils;
+  System.StrUtils, System.SysUtils;
 
 type
   TMatrix = record
@@ -17,6 +17,7 @@ type
     procedure SetValue(const ARow, AColumn: Integer; const AValue: Integer);
   public
     constructor Create(const ASize: Integer; const AValue: Integer);
+    function ToString(const AColumnLength: Integer): string;
     property Value[const ARow, AColumn: Integer]: Integer read GetValue write SetValue;
     property Low: Integer read GetLow;
     property High: Integer read GetHigh;
@@ -64,6 +65,47 @@ end;
 procedure TMatrix.SetValue(const ARow, AColumn: Integer; const AValue: Integer);
 begin
   FMatrix[ARow][AColumn] := AValue;
+end;
+
+function TMatrix.ToString(const AColumnLength: Integer): string;
+var
+  LStringBuilder: TStringBuilder;
+  LRow, LColumn: Integer;
+  LChar, LValue, LSeparator: string;
+begin
+  LStringBuilder := TStringBuilder.Create;
+  try
+    for LRow := Low to High do
+    begin
+      LValue := string.Empty;
+      LSeparator := string.Empty;
+
+      for LColumn := Low to High do
+      begin
+        if Value[LRow, LColumn] > 0 then
+        begin
+          LValue := LValue + '|' + Value[LRow, LColumn].ToString.PadLeft(AColumnLength);
+        end;
+      end;
+
+      LValue := LValue + '|';
+      for LChar in LValue do
+      begin
+        LSeparator := LSeparator + IfThen(LChar.Equals('|'), '+', '-');
+      end;
+
+      if LRow = 0 then
+      begin
+        LStringBuilder.AppendLine(LSeparator);
+      end;
+
+      LStringBuilder.AppendLine(LValue).AppendLine(LSeparator);
+    end;
+
+    Result := LStringBuilder.ToString;
+  finally
+    LStringBuilder.Free;
+  end;
 end;
 
 end.
