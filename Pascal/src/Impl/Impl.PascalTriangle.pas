@@ -74,19 +74,38 @@ end;
 procedure TPascalTriangle.Print;
 var
   LRow, LColumn, LValue: Integer;
-  LFormatedValue: string;
+  LBorders, LValues: string;
+  Letter: string;
 begin
   for LRow := FMatrix.Low to FMatrix.High do
   begin
+    LBorders := string.Empty;
+    LValues := string.Empty;
+
     for LColumn := FMatrix.Low to FMatrix.High do
     begin
       if FMatrix.Value[LRow, LColumn] > 0 then
       begin
-        LFormatedValue := FMatrix.Value[LRow, LColumn].ToString.PadLeft(FMaxValue.ToString.Length);
-        Write('[', LFormatedValue, ']');
+        LBorders := LBorders + '|' + FMatrix.Value[LRow, LColumn].ToString.PadLeft(FMaxValue.ToString.Length);
       end;
     end;
-    Writeln;
+
+    LBorders := LBorders + '|';
+    for Letter in LBorders do
+    begin
+      if Letter = '|' then
+        LValues := LValues + '+'
+      else
+        LValues := LValues + '-';
+    end;
+
+    if LRow = 0 then
+    begin
+      Writeln(LValues);
+    end;
+
+    WriteLn(LBorders);
+    Writeln(LValues);
   end;
 end;
 
