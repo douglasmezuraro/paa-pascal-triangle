@@ -9,7 +9,6 @@ type
   TPascalTriangle = class sealed
   strict private
     FMatrix: TMatrix;
-    FMaxValue: Integer;
     type TEdge = (Index, Value);
     const Edge: array[TEdge] of Byte = (0, 1);
   private
@@ -17,6 +16,7 @@ type
     function Pascal(const ASize: Integer): TMatrix; overload;
   public
     constructor Create(const ASize: Integer);
+    function ToArray: TArray<TArray<Integer>>;
     function ToString: string; override;
   end;
 
@@ -24,28 +24,26 @@ implementation
 
 constructor TPascalTriangle.Create(const ASize: Integer);
 begin
-  FMatrix := Pascal(ASize)
+  if ASize < 1 then
+  begin
+    raise EArgumentException.Create('The pascal triangle size must be positive.');
+  end;
+
+  FMatrix := Pascal(ASize);
 end;
 
 function TPascalTriangle.Pascal(const ASize: Integer): TMatrix;
 var
   LMatrix: TMatrix;
-  LRow, LColumn, LValue: Integer;
+  LRow, LColumn: Integer;
 begin
-  LMatrix := TMatrix.Create(ASize, ZeroValue);
+  LMatrix := TMatrix.Create(ASize, ASize);
 
-  if ASize < PositiveValue then
+  for LRow := 0 to LMatrix.Rows - 1 do
   begin
-    Exit(LMatrix);
-  end;
-
-  for LRow := LMatrix.Low to LMatrix.High do
-  begin
-    for LColumn := LMatrix.Low to LMatrix.High - LRow do
+    for LColumn := 0 to (LMatrix.Columns - 1) - LRow do
     begin
-      LValue := Pascal(LRow, LColumn, LMatrix);
-      FMaxValue := System.Math.Max(LValue, FMaxValue);
-      LMatrix.Value[LRow, LColumn] := LValue;
+      LMatrix.Value[LRow, LColumn] := Pascal(LRow, LColumn, LMatrix);
     end;
   end;
 
@@ -67,9 +65,19 @@ begin
   Result := Pascal(ARow, Pred(AColumn), AMatrix) + Pascal(Pred(ARow), AColumn, AMatrix);
 end;
 
-function TPascalTriangle.ToString: string;
+function TPascalTriangle.ToArray: TArray<TArray<Integer>>;
 begin
-  Result := FMatrix.ToString(FMaxValue.ToString.Length);
+  Result := FMatrix.ToArray;
+end;
+
+function TPascalTriangle.ToString: string;
+var
+  LIndex, LMaxValue: Integer;
+begin
+  LIndex := System.Math.Ceil(FMatrix.Rows / 2) - 1;
+  LMaxValue := FMatrix.Value[LIndex, LIndex];
+
+  Result := FMatrix.ToString(LMaxValue.ToString.Length);
 end;
 
 end.

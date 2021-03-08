@@ -8,53 +8,50 @@ uses
 type
   TMatrix = record
   strict private
-    FSize: Integer;
     FMatrix: TArray<TArray<Integer>>;
+    FDefaultValue: Integer;
+    FRows: Integer;
+    FColumns: Integer;
   private
-    function GetLow: Integer;
-    function GetHigh: Integer;
     function GetValue(const ARow, AColumn: Integer): Integer;
     procedure SetValue(const ARow, AColumn: Integer; const AValue: Integer);
   public
-    constructor Create(const ASize: Integer; const AValue: Integer);
+    constructor Create(const ARows, AColumns: Integer; const ADefaultValue: Integer = 0);
+    function ToArray: TArray<TArray<Integer>>;
     function ToString(const AColumnLength: Integer): string;
+    property Rows: Integer read FRows write FRows;
+    property Columns: Integer read FColumns write FColumns;
     property Value[const ARow, AColumn: Integer]: Integer read GetValue write SetValue;
-    property Low: Integer read GetLow;
-    property High: Integer read GetHigh;
-    property Size: Integer read FSize;
   end;
 
 implementation
 
-constructor TMatrix.Create(const ASize: Integer; const AValue: Integer);
+constructor TMatrix.Create(const ARows, AColumns, ADefaultValue: Integer);
 var
   LRow, LColumn: Integer;
 begin
-  SetLength(FMatrix, ASize, ASize);
-
-  if FSize < PositiveValue then
+  if ARows < 1 then
   begin
-    raise EArgumentException.Create('The matrix size must be positive.');
+    raise EArgumentException.Create('The matrix rows must be positive.');
   end;
 
-  FSize := ASize;
-  for LRow := Low to High do
+  if AColumns < 1 then
   begin
-    for LColumn := Low to High do
+    raise EArgumentException.Create('The matrix columns must be positive.');
+  end;
+
+  SetLength(FMatrix, ARows, AColumns);
+  FRows := ARows;
+  FColumns := AColumns;
+  FDefaultValue := ADefaultValue;
+
+  for LRow := 0 to ARows - 1 do
+  begin
+    for LColumn := 0 to AColumns - 1 do
     begin
-      Value[LRow, LColumn] := AValue;
+      Value[LRow, LColumn] := ADefaultValue;
     end;
   end;
-end;
-
-function TMatrix.GetHigh: Integer;
-begin
-  Result := System.High(FMatrix);
-end;
-
-function TMatrix.GetLow: Integer;
-begin
-  Result := System.Low(FMatrix);
 end;
 
 function TMatrix.GetValue(const ARow, AColumn: Integer): Integer;
@@ -62,44 +59,51 @@ begin
   Result := FMatrix[ARow][AColumn];
 end;
 
-procedure TMatrix.SetValue(const ARow, AColumn: Integer; const AValue: Integer);
+procedure TMatrix.SetValue(const ARow, AColumn, AValue: Integer);
 begin
   FMatrix[ARow][AColumn] := AValue;
+end;
+
+function TMatrix.ToArray: TArray<TArray<Integer>>;
+begin
+  Result := FMatrix;
 end;
 
 function TMatrix.ToString(const AColumnLength: Integer): string;
 var
   LStringBuilder: TStringBuilder;
   LRow, LColumn: Integer;
-  LChar, LValue, LSeparator: string;
+  LChar, LValueRow, LSeparatorRow: string;
 begin
   LStringBuilder := TStringBuilder.Create;
   try
-    for LRow := Low to High do
+    for LRow := 0 to FRows - 1 do
     begin
-      LValue := string.Empty;
-      LSeparator := string.Empty;
+      LValueRow := string.Empty;
+      LSeparatorRow := string.Empty;
 
-      for LColumn := Low to High do
+      for LColumn := 0 to FColumns - 1 do
       begin
-        if Value[LRow, LColumn] >= PositiveValue then
+        if Value[LRow, LColumn] = FDefaultValue then
         begin
-          LValue := LValue + '|' + Value[LRow, LColumn].ToString.PadLeft(AColumnLength);
+          Continue;
         end;
+
+        LValueRow := LValueRow + '|' + Value[LRow, LColumn].ToString.PadLeft(AColumnLength);
       end;
 
-      LValue := LValue + '|';
-      for LChar in LValue do
+      LValueRow := LValueRow + '|';
+      for LChar in LValueRow do
       begin
-        LSeparator := LSeparator + IfThen(LChar.Equals('|'), '+', '-');
+        LSeparatorRow := LSeparatorRow + IfThen(LChar.Equals('|'), '+', '-');
       end;
 
       if LRow = 0 then
       begin
-        LStringBuilder.AppendLine(LSeparator);
+        LStringBuilder.AppendLine(LSeparatorRow);
       end;
 
-      LStringBuilder.AppendLine(LValue).AppendLine(LSeparator);
+      LStringBuilder.AppendLine(LValueRow).AppendLine(LSeparatorRow);
     end;
 
     Result := LStringBuilder.ToString;
