@@ -13,8 +13,8 @@ function GetSize: Integer;
 var
   LValue: string;
 begin
-  Write('Enter the triangle pascal size: ');
-  Readln(LValue);
+  System.Write('Enter the triangle pascal size: ');
+  System.Readln(LValue);
   Result := System.SysUtils.StrToIntDef(LValue, 0);
 end;
 
@@ -24,7 +24,7 @@ var
 begin
   LPascalTriangle := TPascalTriangle.Create(GetSize);
   try
-    Write(LPascalTriangle.ToString);
+    System.Write(LPascalTriangle.ToString);
   finally
     LPascalTriangle.Free;
   end;
@@ -32,8 +32,8 @@ end;
 
 procedure Stop;
 begin
-  Write('Press <Enter> key to quit.');
-  Readln;
+  System.Write('Press <Enter> key to quit.');
+  System.Readln;
 end;
 
 begin
@@ -46,7 +46,7 @@ begin
   except
     on E: Exception do
     begin
-      Writeln(E.ClassName, ': ', E.Message);
+      System.Writeln(E.ClassName, ': ', E.Message);
     end;
   end;
 

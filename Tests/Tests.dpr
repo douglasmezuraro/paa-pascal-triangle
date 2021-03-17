@@ -7,9 +7,9 @@ program Tests;
 uses
   MidasLib,
   System.SysUtils,
-  {$IFDEF TESTINSIGHT}
+{$IFDEF TESTINSIGHT}
   TestInsight.DUnitX,
-  {$ENDIF }
+{$ENDIF }
   DUnitX.Loggers.Console,
   DUnitX.Loggers.Xml.NUnit,
   DUnitX.TestFramework,
@@ -20,23 +20,18 @@ uses
 procedure Run;
 var
   LRunner: ITestRunner;
-  LResults: IRunResults;
-  LLogger: ITestLogger;
-  LUnitLogger: ITestLogger;
 begin
   TDUnitX.CheckCommandLine;
+
   LRunner := TDUnitX.CreateRunner;
   LRunner.UseRTTI := True;
-  LLogger := TDUnitXConsoleLogger.Create(true);
-  LRunner.AddLogger(LLogger);
-  LUnitLogger := TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile);
-  LRunner.AddLogger(LUnitLogger);
   LRunner.FailsOnNoAsserts := True;
+  LRunner.AddLogger(TDUnitXConsoleLogger.Create(True));
+  LRunner.AddLogger(TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile));
 
-  LResults := LRunner.Execute;
-  if not LResults.AllPassed then
+  if not LRunner.Execute.AllPassed then
   begin
-    System.ExitCode := EXIT_ERRORS;
+    System.ExitCode := DUnitX.TestFramework.EXIT_ERRORS;
   end;
 
 {$IFNDEF CI}
